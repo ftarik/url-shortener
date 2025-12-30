@@ -25,8 +25,8 @@ A professional FastAPI-based URL shortening service with analytics, QR codes, an
 
 1. Clone the repository:
 ```bash
-git clone https://github.com/yourusername/url-shortener-api.git
-cd url-shortener-api
+git clone https://github.com/ftarik/url-shortene.git
+cd url-shortener
 ```
 
 2. Create a virtual environment:
@@ -131,6 +131,6 @@ MIT License
 
 ## Contact
 
-Your Name - your.email@example.com
+Tarik FAMIL - tarikfamil@gmail.com
 
-Project Link: https://github.com/yourusername/url-shortener-api
+Project Link: https://github.com/ftarik/url-shortener
