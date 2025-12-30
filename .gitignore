@@ -28,6 +28,11 @@ wheels/
 *.sqlite
 *.sqlite3
 
+# Generated files
+*.png
+*.jpg
+*.jpeg
+
 # IDE
 .vscode/
 .idea/
