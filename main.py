@@ -2,6 +2,7 @@ from fastapi import FastAPI, Depends, HTTPException, Request, status
 from fastapi.responses import RedirectResponse, StreamingResponse
 from sqlalchemy.orm import Session
 from datetime import datetime
+from contextlib import asynccontextmanager
 import logging
 
 from database import get_db, init_db, URL, Analytics
@@ -12,19 +13,24 @@ from utils import generate_short_code, generate_qr_code, calculate_expiration_da
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
 
+
+@asynccontextmanager
+async def lifespan(app: FastAPI):
+    """Lifespan context manager for startup and shutdown events."""
+    # Startup
+    init_db()
+    logger.info("Database initialized successfully")
+    yield
+    # Shutdown (if needed)
+
+
 # Initialize FastAPI app
 app = FastAPI(
     title="URL Shortener Service",
     description="A professional FastAPI-based URL shortening service with analytics, QR codes, and expiration features.",
-    version="1.0.0"
+    version="1.0.0",
+    lifespan=lifespan
 )
-
-
-@app.on_event("startup")
-def startup_event():
-    """Initialize database on startup."""
-    init_db()
-    logger.info("Database initialized successfully")
 
 
 @app.get("/", tags=["Root"])

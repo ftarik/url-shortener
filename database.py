@@ -1,7 +1,7 @@
 from sqlalchemy import create_engine, Column, String, Integer, DateTime, ForeignKey
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import sessionmaker, relationship
-from datetime import datetime
+from datetime import datetime, timezone
 
 SQLALCHEMY_DATABASE_URL = "sqlite:///./url_shortener.db"
 
@@ -20,7 +20,7 @@ class URL(Base):
     id = Column(Integer, primary_key=True, index=True)
     original_url = Column(String, nullable=False)
     short_code = Column(String, unique=True, index=True, nullable=False)
-    created_at = Column(DateTime, default=datetime.utcnow)
+    created_at = Column(DateTime, default=lambda: datetime.now(timezone.utc))
     expires_at = Column(DateTime, nullable=True)
     is_active = Column(Integer, default=1)
     
@@ -33,7 +33,7 @@ class Analytics(Base):
 
     id = Column(Integer, primary_key=True, index=True)
     url_id = Column(Integer, ForeignKey("urls.id"), nullable=False)
-    visited_at = Column(DateTime, default=datetime.utcnow)
+    visited_at = Column(DateTime, default=lambda: datetime.now(timezone.utc))
     user_agent = Column(String, nullable=True)
     ip_address = Column(String, nullable=True)
     referer = Column(String, nullable=True)

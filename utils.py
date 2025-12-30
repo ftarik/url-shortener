@@ -2,7 +2,7 @@ import string
 import random
 import qrcode
 from io import BytesIO
-from datetime import datetime, timedelta
+from datetime import datetime, timedelta, timezone
 
 
 def generate_short_code(length: int = 6) -> str:
@@ -33,11 +33,11 @@ def generate_qr_code(url: str) -> BytesIO:
 
 def calculate_expiration_date(days: int) -> datetime:
     """Calculate expiration date from current time."""
-    return datetime.utcnow() + timedelta(days=days)
+    return datetime.now(timezone.utc) + timedelta(days=days)
 
 
 def is_url_expired(expires_at: datetime) -> bool:
     """Check if URL has expired."""
     if expires_at is None:
         return False
-    return datetime.utcnow() > expires_at
+    return datetime.now(timezone.utc) > expires_at
